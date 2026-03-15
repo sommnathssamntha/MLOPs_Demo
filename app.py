@@ -6,6 +6,15 @@ from pathlib import Path
 app = Flask(__name__)
 MODEL_PATH = Path("artifacts/model.pkl")
 
+@app.route('/test', methods=['POST'])
+def test():
+    print("=== TEST ROUTE HIT ===")
+    print("Headers:", dict(request.headers))
+    print("Raw body:", request.data)
+    print("get_json():", request.get_json(silent=True))
+    print("form:", request.form)
+    return {"status": "ok", "seen": True}, 200
+
 if not MODEL_PATH.exists():
     # convenience: train if model missing
     import train as _train
